@@ -32,33 +32,43 @@
 
 #elif defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
 
+//---- SHIELD v0.2 PIN DEFINITIONS
 //---- User Configurable Pin Definitions for ATMegaXXX0 Variants -----
 //Warning: D30 to D37 inclusive are NOT allowed
-#define statusPin_Define 13
+#define statusPin_Define 16
 
-#define resetPin_0_Define 55
-#define resetPin_1_Define 54
+#define resetPin_0_Define 11
+#define resetPin_1_Define 48
 
-#define dirPin_0_Define 3
-#define dirPin_1_Define 7
+#define dirPin_0_Define 13
+#define dirPin_1_Define 52
 
-#define enablePin_0_Define 4
-#define enablePin_1_Define 8
+#define enablePin_0_Define 7
+#define enablePin_1_Define 40
 
-#define stepPin_0_Define 5
-#define stepPin_1_Define 12
+#define stepPin_0_Define 12
+#define stepPin_1_Define 50
 
+#define ALTERNATE_ST4 //Uncomment this line to use the alternate mapping for the ST4 port, using A8 to A11 instead of 50 to 53
+
+#ifdef ALTERNATE_ST4
+#define ST4AddPin_0_Define 6 //A8
+#define ST4AddPin_1_Define 63 //A9
+#define ST4SubPin_0_Define 64 //A10
+#define ST4SubPin_1_Define 65 //A11
+#else
 #define ST4AddPin_0_Define 50
 #define ST4AddPin_1_Define 51
 #define ST4SubPin_0_Define 53
 #define ST4SubPin_1_Define 52
+#endif
 
-#define modePins0_0_Define 15
-#define modePins1_0_Define 16
-#define modePins2_0_Define 17
-#define modePins0_1_Define 20
-#define modePins1_1_Define 19
-#define modePins2_1_Define 18
+#define modePins0_0_Define 8
+#define modePins1_0_Define 9
+#define modePins2_0_Define 10
+#define modePins0_1_Define 42
+#define modePins1_1_Define 44
+#define modePins2_1_Define 46
 
 
 

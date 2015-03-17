@@ -309,13 +309,21 @@ int main(void)
   //setup interrupt for ST4 connection
 #if defined(__AVR_ATmega162__)
   PCMSK0 = 0xF0; //PCINT[4..7]
-#define PCICR GICR
-#else
-  PCMSK0 = 0x0F; //PCINT[0..3]
-  PCICR &= ~_BV(PCIE2); //disable PCInt[16..23] vector
-#endif
   PCICR &= ~_BV(PCIE1); //disable PCInt[8..15] vector
   PCICR |= _BV(PCIE0); //enable PCInt[0..7] vector
+#else  
+  #ifdef ALTERNATE_ST4
+    PCMSK2 = 0x0F; //PCINT[16..23]
+    PCICR |= _BV(PCIE2); //enable PCInt[16..23] vector
+    PCICR &= ~_BV(PCIE1); //disable PCInt[8..15] vector
+    PCICR &= ~_BV(PCIE0); //disable PCInt[0..7] vector
+  #else
+    PCMSK0 = 0x0F; //PCINT[0..3]
+    PCICR &= ~_BV(PCIE2); //disable PCInt[16..23] vector
+    PCICR &= ~_BV(PCIE1); //disable PCInt[8..15] vector
+    PCICR |= _BV(PCIE0); //enable PCInt[0..7] vector
+  #endif
+#endif
   char recievedChar = 0;
   signed char decoded = 0;
   for(;;){ //loop
@@ -909,7 +917,12 @@ void configureTimer(){
   
 }
 
-ISR(PCINT0_vect) {
+#ifdef ALTERNATE_ST4
+ISR(PCINT2_vect)
+#else
+ISR(PCINT0_vect)
+#endif
+{
   //ST4 Pin Change Interrupt Handler.
   byte stopped;
   if(!cmd.gotoEn[RA]){
